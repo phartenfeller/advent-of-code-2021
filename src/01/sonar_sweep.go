@@ -7,6 +7,9 @@ import (
 	"strings"
 )
 
+const pathInput = "C:\\Users\\phart\\Documents\\Code\\_random\\advent-of-code-2021\\src\\01\\input.txt"
+const pathTestInput = "C:\\Users\\phart\\Documents\\Code\\_random\\advent-of-code-2021\\src\\01\\test.txt"
+
 func logErr(e error) {
 	if e != nil {
 		log.Panicln(e)
@@ -20,8 +23,8 @@ func strToInt(str string) (num int) {
 	return num
 }
 
-func readFile() (str string) {
-	dat, err := os.ReadFile("C:\\Users\\phart\\Documents\\Code\\_random\\advent-of-code-2021\\src\\01\\input.txt")
+func readFile(path string) (str string) {
+	dat, err := os.ReadFile(path)
 	logErr(err)
 
 	str = string(dat)
@@ -86,7 +89,7 @@ func part2(spl []string, debug bool) (increases int) {
 }
 
 func main() {
-	str := readFile()
+	str := readFile(pathInput)
 	// fields --> split by whitespace and newline
 	splice := strings.Fields(str)
 

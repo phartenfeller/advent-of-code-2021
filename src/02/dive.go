@@ -7,6 +7,9 @@ import (
 	"strings"
 )
 
+const pathInput = "C:\\Users\\phart\\Documents\\Code\\_random\\advent-of-code-2021\\src\\02\\input.txt"
+const pathTestInput = "C:\\Users\\phart\\Documents\\Code\\_random\\advent-of-code-2021\\src\\02\\test.txt"
+
 func logErr(e error) {
 	if e != nil {
 		log.Panicln(e)
@@ -20,17 +23,17 @@ func strToInt(str string) (num int) {
 	return num
 }
 
-func readFile() (str string) {
-	dat, err := os.ReadFile("C:\\Users\\phart\\Documents\\Code\\_random\\advent-of-code-2021\\src\\02\\input.txt")
+func readFile(path string) (str string) {
+	dat, err := os.ReadFile(path)
 	logErr(err)
 
 	str = string(dat)
 	return str
 }
 
-func part1(spl []string, debug bool) (horiz int, depth int) {
-	horiz = 0
-	depth = 0
+func part1(spl []string, debug bool) (product int) {
+	horiz := 0
+	depth := 0
 
 	for i := 0; i < len(spl); i += 2 {
 		dir := spl[i]
@@ -53,12 +56,13 @@ func part1(spl []string, debug bool) (horiz int, depth int) {
 		}
 	}
 
-	return horiz, depth
+	log.Println("Part1: horiz =>", horiz, ", depth => ", depth)
+	return horiz * depth
 }
 
-func part2(spl []string, debug bool) (horiz int, depth int) {
-	horiz = 0
-	depth = 0
+func part2(spl []string, debug bool) (product int) {
+	horiz := 0
+	depth := 0
 	aim := 0
 
 	for i := 0; i < len(spl); i += 2 {
@@ -87,19 +91,18 @@ func part2(spl []string, debug bool) (horiz int, depth int) {
 		}
 	}
 
-	return horiz, depth
+	log.Println("Part2: horiz =>", horiz, ", depth => ", depth)
+	return horiz * depth
 }
 
 func main() {
-	str := readFile()
+	str := readFile(pathInput)
 	// fields --> split by whitespace and newline
 	splice := strings.Fields(str)
 
-	horiz, depth := part1(splice, false)
-	mult := horiz * depth
-	log.Println("Part1: horiz =>", horiz, ", depth => ", depth, ", mult =>", mult)
+	prod1 := part1(splice, false)
+	log.Println("Part1 result =>", prod1)
 
-	horiz2, depth2 := part2(splice, true)
-	mult2 := horiz2 * depth2
-	log.Println("Part2: horiz =>", horiz2, ", depth => ", depth2, ", mult =>", mult2)
+	prod2 := part2(splice, true)
+	log.Println("Part2 result =>", prod2)
 }
