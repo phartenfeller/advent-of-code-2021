@@ -20,30 +20,79 @@ func strToInt(str string) (num int) {
 	return num
 }
 
-func main() {
-	increases := 0
-
+func readFile() (str string) {
 	dat, err := os.ReadFile("C:\\Users\\phart\\Documents\\Code\\_random\\advent-of-code-2021\\src\\01\\input.txt")
 	logErr(err)
 
-	str := string(dat)
+	str = string(dat)
+	return str
+}
 
-	// fields --> split by whitespace and newline
-	splice := strings.Fields(str)
-
+func part1(spl []string, debug bool) (increases int) {
+	increases = 0
 	prev := -1
 
-	for _, line := range splice {
+	for _, line := range spl {
 		num := strToInt(line)
 		if prev < num && prev != -1 {
 			increases++
 		} else {
-			log.Println("No increase =>", prev, num)
+			if debug {
+				log.Println("No increase =>", prev, num)
+			}
 		}
 
 		prev = num
 	}
 
-	log.Println("increases =>", increases)
+	return increases
+}
 
+func getSumOfLast3(spl []string, start int, debug bool) (sum int) {
+	if debug {
+		log.Println("get sum of", start, start+1, start+2)
+	}
+
+	sum = 0
+	sum += strToInt(spl[start])
+	sum += strToInt(spl[start+1])
+	sum += strToInt(spl[start+2])
+
+	return sum
+}
+
+func part2(spl []string, debug bool) (increases int) {
+	increases = 0
+
+	// start at 3 because we want to compare spl[0, 1, 2] and spl[1, 2, 3]
+	for i := 3; i < len(spl); i++ {
+		if debug {
+			log.Println(i, "======")
+		}
+
+		prev := getSumOfLast3(spl, i-3, debug)
+		curr := getSumOfLast3(spl, i-2, debug)
+
+		if prev < curr {
+			increases++
+		} else {
+			if debug {
+				log.Println("No increase =>", prev, curr, i)
+			}
+		}
+	}
+
+	return increases
+}
+
+func main() {
+	str := readFile()
+	// fields --> split by whitespace and newline
+	splice := strings.Fields(str)
+
+	part1Res := part1(splice, false)
+	log.Println("Part1: increases =>", part1Res)
+
+	part2Res := part2(splice, false)
+	log.Println("Part2: increases =>", part2Res)
 }
