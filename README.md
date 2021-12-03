@@ -4,3 +4,4 @@
 
 - [Day 1: Sonar Sweep](./src/01/sonar_sweep.go)
 - [Day 2: Dive!](./src/02/dive.go)
+- [Day 3: Binary Diagnostic](./src/03/binary_diagnostic.go)
