@@ -98,14 +98,108 @@ func part1(spl []string, debug bool) (product int) {
 	return gammaInt * epsilonInt
 }
 
+func coutOccurrencesForPosition(spl []string, pos int) (result binaryIndex) {
+	for _, line := range spl {
+		rn := rune(line[pos])
+
+		switch rn {
+		case '0':
+			result.zeros++
+			break
+		case '1':
+			result.ones++
+			break
+		default:
+			log.Panicln("Unhandled rune", rn)
+		}
+
+	}
+
+	return result
+}
+
+func filterSinglePosition(spl []string, position int, value rune) (filteredSpl []string) {
+	for _, line := range spl {
+		if rune(line[position]) == value {
+			filteredSpl = append(filteredSpl, line)
+		}
+	}
+
+	return filteredSpl
+}
+
+func part2(spl []string, debug bool) (product int) {
+	var OxySeq string
+	var Co2Seq string
+
+	filteredSplOxy := spl
+	filteredSplCo2 := spl
+
+	for i := 0; i < len(spl[0]); i++ {
+		var filterOxyRune rune
+		var filterCo2Rune rune
+
+		if OxySeq == "" {
+			resOxy := coutOccurrencesForPosition(filteredSplOxy, i)
+
+			if resOxy.ones == resOxy.zeros {
+				filterOxyRune = '1'
+			} else if resOxy.ones > resOxy.zeros {
+				filterOxyRune = '1'
+			} else {
+				filterOxyRune = '0'
+			}
+
+			filteredSplOxy = filterSinglePosition(filteredSplOxy, i, filterOxyRune)
+
+			if len(filteredSplOxy) == 1 {
+				OxySeq = filteredSplOxy[0]
+			}
+		}
+
+		if Co2Seq == "" {
+			resCo2 := coutOccurrencesForPosition(filteredSplCo2, i)
+
+			if resCo2.ones == resCo2.zeros {
+				filterCo2Rune = '0'
+			} else if resCo2.ones > resCo2.zeros {
+				filterCo2Rune = '0'
+			} else {
+				filterCo2Rune = '1'
+			}
+
+			filteredSplCo2 = filterSinglePosition(filteredSplCo2, i, filterCo2Rune)
+
+			if len(filteredSplCo2) == 1 {
+				Co2Seq = filteredSplCo2[0]
+			}
+		}
+	}
+
+	if debug {
+		log.Println("OxySeq => ", OxySeq)
+		log.Println("Co2Seq => ", Co2Seq)
+	}
+
+	oxyInt := binaryToInt(OxySeq)
+	co2Int := binaryToInt(Co2Seq)
+
+	if debug {
+		log.Println("oxyInt => ", oxyInt)
+		log.Println("co2Int => ", co2Int)
+	}
+
+	return oxyInt * co2Int
+}
+
 func main() {
 	str := readFile(pathInput)
 	// fields --> split by whitespace and newline
 	splice := strings.Fields(str)
 
-	prod1 := part1(splice, true)
+	prod1 := part1(splice, false)
 	log.Println("Part1 result =>", prod1)
 
-	//prod2 := part2(splice, true)
-	//log.Println("Part2 result =>", prod2)
+	prod2 := part2(splice, true)
+	log.Println("Part2 result =>", prod2)
 }
