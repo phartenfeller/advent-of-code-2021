@@ -3,12 +3,13 @@ package main
 import (
 	"log"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
 
-const pathInput = "C:\\Users\\phart\\Documents\\Code\\_random\\advent-of-code-2021\\src\\01\\input.txt"
-const pathTestInput = "C:\\Users\\phart\\Documents\\Code\\_random\\advent-of-code-2021\\src\\01\\test.txt"
+const pathInput = "input.txt"
+const pathTestInput = "test.txt"
 
 func logErr(e error) {
 	if e != nil {
@@ -24,7 +25,9 @@ func strToInt(str string) (num int) {
 }
 
 func readFile(path string) (str string) {
-	dat, err := os.ReadFile(path)
+	fp, err := filepath.Abs(path)
+	logErr(err)
+	dat, err := os.ReadFile(fp)
 	logErr(err)
 
 	str = string(dat)
