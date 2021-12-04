@@ -233,13 +233,84 @@ func part1(spl []string, debug bool) (res int, numBoards int) {
 	return res, len(boards)
 }
 
+func getLoserBoardIndex(bingoNums []int, boards []bingoBoard, debug bool) (boardIdx int, numIdx int) {
+	winnerBoardsLen := 0
+
+	// for every drawn number ...
+	for i := 0; i < len(bingoNums); i++ {
+		num := bingoNums[i]
+
+		// ... check all boards ...
+		for j := 0; j < len(boards); j++ {
+			// ... and all lines in them
+
+			// skip already solved boards
+			if boards[j].solved == false {
+				for k := 0; k < len(boards[j].lines); k++ {
+					// check again because a board could be solved two times in the same drawing
+					if boards[j].solved == false {
+						line := boards[j].lines[k]
+						if lineContainsNum(line.values, num) {
+							// need to access over loop nums to not update copy
+							boards[j].lines[k].found = line.found + 1
+
+							if boards[j].lines[k].found == BOARD_SIDE_LEN {
+								winnerBoardsLen++
+								if debug {
+									log.Println("Winner line in board", j, "=>", line.values)
+								}
+
+								boards[j].solved = true
+
+								// if this is the last board
+								if winnerBoardsLen == len(boards) {
+									if debug {
+										log.Println("This was the last one!")
+									}
+									return j, i
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// debug output
+	for i, board := range boards {
+		log.Println("Lines for board", i)
+		for j, line := range board.lines {
+			log.Println(j, "found => ", line.found, " values => ", line.values)
+		}
+	}
+
+	log.Panicln("No winner found!")
+	return 0, 0
+}
+
+func part2(spl []string, debug bool) (res int, numBoards int) {
+	bingoNums, boards := parseInput(spl)
+
+	if debug {
+		log.Println("bingoNums =>", bingoNums)
+		log.Println("board count =>", len(boards))
+	}
+
+	boardIdx, numIdx := getLoserBoardIndex(bingoNums, boards, debug)
+
+	res = calcResult(boards[boardIdx], bingoNums[:numIdx+1], debug)
+
+	return res, len(boards)
+}
+
 func main() {
 	str := readFile(pathInput)
 	splice := strings.Split(str, "\n")
 
-	prod1, _ := part1(splice, true)
+	prod1, _ := part1(splice, false)
 	log.Println("Part1 result =>", prod1)
 
-	//prod2 := part2(splice, true)
-	//log.Println("Part2 result =>", prod2)
+	prod2, _ := part2(splice, true)
+	log.Println("Part2 result =>", prod2)
 }

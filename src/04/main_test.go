@@ -25,7 +25,6 @@ func TestPart1(t *testing.T) {
 	}
 }
 
-/*
 func TestPart2(t *testing.T) {
 	str := readFile(pathTestInput)
 	splice := strings.Split(str, "\n")
@@ -39,4 +38,3 @@ func TestPart2(t *testing.T) {
 		t.Errorf("Part1 board count was incorrect, got: %d, want: %d.", boardCount1, expectBoardCount)
 	}
 }
-*/
