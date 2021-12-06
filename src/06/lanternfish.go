@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -43,32 +44,73 @@ func parseInput(str string) (startPop []int) {
 	return startPop
 }
 
-func simulateDays(startPop []int, days int, debug bool) (popCount int) {
-	currentPop := startPop
-	addCount := 0
+func compressPop(startPop []int, debug bool) (compressed map[int]int) {
+	m := make(map[int]int)
 
-	for i := 0; i < days; i++ {
-		addCount = 0
-
-		for j := 0; j < len(currentPop); j++ {
-			if currentPop[j] == 0 {
-				addCount++
-				currentPop[j] = 6
-			} else {
-				currentPop[j]--
-			}
-		}
-
-		for i := 0; i < addCount; i++ {
-			currentPop = append(currentPop, NewbornTimer)
-		}
-
-		if debug {
-			log.Println("Day", i, " => ", len(currentPop))
+	for _, fishTime := range startPop {
+		if _, ok := m[fishTime]; ok {
+			m[fishTime]++
+		} else {
+			m[fishTime] = 1
 		}
 	}
 
-	return len(currentPop)
+	if debug {
+		fmt.Println("==== Start Pop ======")
+		for key, element := range m {
+			fmt.Println("Key:", key, "=>", "Element:", element)
+		}
+		fmt.Println("===================")
+	}
+
+	return m
+}
+
+func getPopSum(popMap map[int]int, debug bool) (count int) {
+	count = 0
+
+	for key, element := range popMap {
+		count += element
+
+		if debug {
+			fmt.Println("Key:", key, "=>", "Element:", element)
+		}
+	}
+
+	return count
+}
+
+func initNextDayMap() (nextDayMap map[int]int) {
+	nextDayMap = make(map[int]int)
+
+	for i := 0; i <= NewbornTimer; i++ {
+		nextDayMap[i] = 0
+	}
+
+	return nextDayMap
+}
+
+func simulateDays(startPop []int, days int, debug bool) (popCount int) {
+	popMap := compressPop(startPop, debug)
+
+	for i := 0; i < days; i++ {
+		nextDayMap := initNextDayMap()
+
+		for j := 0; j <= NewbornTimer; j++ {
+			if num, ok := popMap[j]; ok {
+				if j == 0 {
+					nextDayMap[6] += num
+					nextDayMap[NewbornTimer] += num
+				} else {
+					nextDayMap[j-1] += num
+				}
+			}
+		}
+
+		popMap = nextDayMap
+	}
+
+	return getPopSum(popMap, debug)
 }
 
 func part1(str string, debug bool) (res int) {
@@ -96,9 +138,9 @@ func part2(str string, debug bool) (res int) {
 func main() {
 	str := readFile(pathInput)
 
-	prod1 := part1(str, true)
+	prod1 := part1(str, false)
 	log.Println("Part1 result =>", prod1)
 
-	//prod2 := part2(splice, true)
-	//log.Println("Part2 result =>", prod2)
+	prod2 := part2(str, true)
+	log.Println("Part2 result =>", prod2)
 }
