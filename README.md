@@ -8,3 +8,4 @@
 - [Day 4: Giant Squid](./src/04/giant_squid.go)
 - [Day 5: Hydrothermal Venture](./src/05/hydrothermal_venture.go)
 - [Day 6: Lanternfish](./src/06/lanternfish.go)
+- [Day 7: The Treachery of Whales](./src/07/whales.go)

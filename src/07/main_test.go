@@ -5,7 +5,7 @@ import (
 )
 
 const expect1 = 37
-const expect2 = 26984457539
+const expect2 = 168
 
 func TestPart1(t *testing.T) {
 	str := readFile(pathTestInput)
@@ -17,7 +17,6 @@ func TestPart1(t *testing.T) {
 
 }
 
-/*
 func TestPart2(t *testing.T) {
 	str := readFile(pathTestInput)
 
@@ -26,5 +25,3 @@ func TestPart2(t *testing.T) {
 		t.Errorf("Part2 res was incorrect, got: %d, want: %d.", res2, expect2)
 	}
 }
-
-*/
