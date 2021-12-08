@@ -9,3 +9,4 @@
 - [Day 5: Hydrothermal Venture](./src/05/hydrothermal_venture.go)
 - [Day 6: Lanternfish](./src/06/lanternfish.go)
 - [Day 7: The Treachery of Whales](./src/07/whales.go)
+- [Day 8: Seven Segment Search](./src/08/seven_segment_search.go)
