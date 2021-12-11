@@ -12,3 +12,4 @@
 - [Day 8: Seven Segment Search](./src/08/seven_segment_search.go)
 - [Day 9: Smoke Basin](./src/09/smoke_basin.go)
 - [Day 10: Syntax Scoring](./src/10/syntax_scoring.go)
+- [Day 11: Dumbo Octopus](./src/11/dumbo_octopus.go)
