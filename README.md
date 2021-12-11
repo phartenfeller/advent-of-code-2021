@@ -11,3 +11,4 @@
 - [Day 7: The Treachery of Whales](./src/07/whales.go)
 - [Day 8: Seven Segment Search](./src/08/seven_segment_search.go)
 - [Day 9: Smoke Basin](./src/09/smoke_basin.go)
+- [Day 10: Syntax Scoring](./src/10/syntax_scoring.go)
