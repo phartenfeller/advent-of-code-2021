@@ -13,3 +13,4 @@
 - [Day 9: Smoke Basin](./src/09/smoke_basin.go)
 - [Day 10: Syntax Scoring](./src/10/syntax_scoring.go)
 - [Day 11: Dumbo Octopus](./src/11/dumbo_octopus.go)
+- [Day 12: Passage Pathing](./src/12/passage_pathing.go)
