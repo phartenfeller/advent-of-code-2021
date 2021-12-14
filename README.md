@@ -14,3 +14,4 @@
 - [Day 10: Syntax Scoring](./src/10/syntax_scoring.go)
 - [Day 11: Dumbo Octopus](./src/11/dumbo_octopus.go)
 - [Day 12: Passage Pathing](./src/12/passage_pathing.go)
+- [Day 13: Transparent Origami](./src/13/transparent_origami.go)
